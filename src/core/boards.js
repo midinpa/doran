@@ -11,15 +11,15 @@ export const writeBoard = async (req) => {
     throw createError(400);
   }
   const {
-    sender, message,
+    sender, content,
   } = body;
-  if (!sender || !message) {
+  if (!sender || !content) {
     console.error('request body is not valid');
     throw createError(400);
   }
 
   const result = await Board.create({
-    sender, message,
+    sender, content,
   });
 
   if (!result) {

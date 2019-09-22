@@ -77,7 +77,8 @@ paths:
         name: limit
         description: number of boards in a page
         schema:
-          type: integer        
+          type: integer
+        required: true   
       responses:
         400:
           description: Bad Request
@@ -97,9 +98,109 @@ paths:
           properties:
             sender:
               type: string
-            message:
+            content:
               type: string
         required: true 
+      responses:
+        400:
+          description: Bad Request  
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+  /rooms:
+    get:
+      tags:
+      - doran
+      summary: get rooms
+      operationId: getRooms
+      parameters:
+      - in: query
+        name: skip
+        description: number of pages to skip
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: limit
+        description: number of rooms in a page
+        schema:
+          type: integer
+        required: true  
+      responses:
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+    post:
+      tags:
+      - doran
+      summary: create a room
+      operationId: createRoom
+      parameters:
+      - in: body
+        name: body
+        description: Room object
+        schema:
+          type: object
+          properties:
+            guest:
+              type: string
+        required: true 
+      responses:
+        400:
+          description: Bad Request  
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+  /messages:
+    get:
+      tags:
+      - doran
+      summary: get messages
+      operationId: getMessages
+      parameters:
+      - in: query
+        name: roomId
+        description: room id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: skip
+        description: number of pages to skip
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: limit
+        description: number of messages in a page
+        schema:
+          type: integer
+        required: true  
+      responses:
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+    post:
+      tags:
+      - doran
+      summary: send a message
+      operationId: sendMessage
+      parameters:
+      - in: body
+        name: body
+        description: Message object
+        schema:
+          type: object
+          properties:
+            roomId:
+              type: string
+            content:
+              type: string
+        required: true
       responses:
         400:
           description: Bad Request  

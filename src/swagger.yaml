@@ -1,0 +1,109 @@
+swagger: "2.0"
+info:
+  description: This is Doran server.
+  version: "1.0.0"
+  title: Swagger Doran
+basePath: /api/v1
+tags:
+- name: doran
+  description: Everything about Doran
+schemes:
+- http
+paths:
+  /register:
+    post:
+      tags:
+      - doran
+      summary: register
+      operationId: register
+      parameters:
+      - in: body
+        name: body
+        description: User register object
+        schema:
+          type: object
+          properties:
+            phoneId:
+              type: string
+            nickname:
+              type: string
+            age:
+              type: integer
+            sex:
+              type: string
+            location:
+              type: string
+        required: true
+      responses:
+        400:
+          description: Bad Request
+        500:
+          description: Internal Server Error
+  /login:
+    post:
+      tags:
+      - doran
+      summary: login
+      operationId: login
+      parameters:
+      - in: body
+        name: body
+        description: User login object
+        schema:
+          type: object
+          properties:
+            phoneId:
+              type: string
+        required: true
+      responses:
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+  /boards:
+    get:
+      tags:
+      - doran
+      summary: read boards
+      operationId: readBoards
+      parameters:
+      - in: query
+        name: skip
+        description: number of pages to skip
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: limit
+        description: number of boards in a page
+        schema:
+          type: integer        
+      responses:
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+    post:
+      tags:
+      - doran
+      summary: write board
+      operationId: writeBoard
+      parameters:
+      - in: body
+        name: body
+        description: Board object
+        schema:
+          type: object
+          properties:
+            sender:
+              type: string
+            message:
+              type: string
+        required: true 
+      responses:
+        400:
+          description: Bad Request  
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error

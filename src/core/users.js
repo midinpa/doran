@@ -11,15 +11,15 @@ export const register = async (req) => {
     throw createError(400);
   }
   const {
-    phoneId, nickname, age, sex,
+    phoneId, nickname, age, sex, location,
   } = body;
-  if (!phoneId || !nickname || !age || !sex) {
+  if (!phoneId || !nickname || !age || !sex || !location) {
     console.error('request body is not valid');
     throw createError(400);
   }
 
   const result = await User.create({
-    phoneId, nickname, age, sex,
+    phoneId, nickname, age, sex, location,
   });
 
   if (!result) {

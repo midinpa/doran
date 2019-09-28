@@ -9,5 +9,6 @@ module.exports = {
     'no-unused-vars': 'warn',
     'import/no-extraneous-dependencies': 'warn',
     'no-param-reassign': 'warn',
+    'no-underscore-dangle': 'off',
   }
 };

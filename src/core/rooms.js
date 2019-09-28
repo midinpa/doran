@@ -1,35 +1,49 @@
 import createError from 'http-errors';
 import {
-  Board,
+  Room,
 } from '../db';
 import { console } from '../lib';
+import {
+  getUser,
+} from './lib';
 
-export const writeBoard = async (req) => {
+
+export const createRoom = async (req) => {
+  const { _id: host } = await getUser(req);
   const { body } = req;
   if (!body) {
     console.error('request body is not given');
     throw createError(400);
   }
+
   const {
-    sender, content,
+    guest,
   } = body;
-  if (!sender || !content) {
+  if (!guest) {
     console.error('request body is not valid');
     throw createError(400);
   }
 
-  const result = await Board.create({
-    sender, content,
+  // room already exists
+  const existingRoom = await Room.findOne({ host, guest });
+  if (existingRoom) {
+    return { roomId: existingRoom, created: false };
+  }
+
+  // create new room
+  const result = await Room.create({
+    host, guest,
   });
 
   if (!result) {
     console.error('db creation error');
     throw createError(500);
   }
-  return {};
+  return { roomId: result, created: true };
 };
 
-export const readBoards = async (req) => {
+export const getRooms = async (req) => {
+  const { _id: host } = await getUser(req);
   const { query } = req;
   if (!query) {
     console.error('request query is not given');
@@ -44,18 +58,12 @@ export const readBoards = async (req) => {
   skip = Number(skip);
   limit = Number(limit);
 
-  const result = await Board
+  const result = await Room
     .aggregate()
+    .match({ host })
     .skip(skip * limit)
     .limit(limit)
-    .sort('createdAt')
-    .lookup({
-      from: 'users',
-      localField: 'sender',
-      foreignField: '_id',
-      as: 'sender',
-    })
-    .unwind('$sender')
+    .sort('updatedAt')
     .exec();
 
   return result;

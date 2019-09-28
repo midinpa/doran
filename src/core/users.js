@@ -2,7 +2,7 @@ import createError from 'http-errors';
 import {
   User,
 } from '../db';
-import console from '../lib/console';
+import { console } from '../lib';
 
 export const register = async (req) => {
   const { body } = req;

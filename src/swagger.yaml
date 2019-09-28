@@ -70,15 +70,13 @@ paths:
       - in: query
         name: skip
         description: number of pages to skip
-        schema:
-          type: integer
+        type: integer
         required: true
       - in: query
         name: limit
-        description: number of boards in a page
-        schema:
-          type: integer
-        required: true   
+        description: number of messages in a page
+        type: integer
+        required: true  
       responses:
         400:
           description: Bad Request
@@ -118,16 +116,18 @@ paths:
       - in: query
         name: skip
         description: number of pages to skip
-        schema:
-          type: integer
+        type: integer
         required: true
       - in: query
         name: limit
-        description: number of rooms in a page
-        schema:
-          type: integer
-        required: true  
+        description: number of messages in a page
+        type: integer
+        required: true
       responses:
+        200:
+          description: A list of rooms
+          schema:
+            $ref: '#/components/schemas/Room'
         400:
           description: Bad Request
         401:
@@ -140,7 +140,7 @@ paths:
       parameters:
       - in: body
         name: body
-        description: Room object
+        description: guest id
         schema:
           type: object
           properties:
@@ -148,6 +148,14 @@ paths:
               type: string
         required: true 
       responses:
+        200:
+          description: Existed Room
+          schema:
+            $ref: '#/components/schemas/Room'
+        201:
+          description: Created Room
+          schema:
+            $ref: '#/components/schemas/Room'
         400:
           description: Bad Request  
         401:
@@ -164,21 +172,18 @@ paths:
       - in: query
         name: roomId
         description: room id
-        schema:
-          type: string
+        type: string
         required: true
       - in: query
         name: skip
         description: number of pages to skip
-        schema:
-          type: integer
+        type: integer
         required: true
       - in: query
         name: limit
         description: number of messages in a page
-        schema:
-          type: integer
-        required: true  
+        type: integer
+        required: true
       responses:
         400:
           description: Bad Request
@@ -208,3 +213,18 @@ paths:
           description: Unauthorized
         500:
           description: Internal Server Error
+components:
+  schemas:
+    Room:
+      type: object
+      properties:
+        _id:
+          type: string
+        host:
+          type: string
+        guest:
+          type: string
+        createAt:
+          type: string
+        updatedAt:
+          type: string

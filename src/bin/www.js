@@ -1,7 +1,7 @@
 import http from 'http';
 import app from '../app';
 import console from '../lib/console';
-
+import runSocket from '../socket';
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -83,3 +83,9 @@ const server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+/**
+ * Create socket
+ */
+
+runSocket();

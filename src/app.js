@@ -7,6 +7,7 @@ import console from './lib/console';
 import { dburi } from './config';
 import webpackConfig from '../webpack.config.dev';
 
+
 const indexPath = path.resolve(__dirname, 'swagger.yaml');
 const swaggerDocument = YAML.load(indexPath);
 
